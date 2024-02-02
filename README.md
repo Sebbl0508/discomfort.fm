@@ -5,7 +5,6 @@ Discord bot for listening to webradio. (But it can also be used for playing othe
 Copy `.env.example` to `.env` and adjust the values:
 - `DISCORD_TOKEN`: The discord bot token
 - `SELF_DEAF`: The bot deafens itself so it doesn't hear conversations
-    - *Not working yet*
 - `MAX_VOLUME`: The maximum volume that can be set from discord
     - (set to something like `10000` for a fun time :D)
 - `DATABASE_URL`: SQLite URI to where the database should be saved, if not set it will land in the local app data directory of your OS

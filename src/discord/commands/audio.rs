@@ -39,11 +39,14 @@ pub async fn play(
     let voice_handler = match songbird_mgr.get(guild_id) {
         Some(v) => v,
         None => match try_join_user_voice_channel(&ctx, &songbird_mgr).await {
-            Ok(v) => {
-                v.lock()
-                    .await
-                    .add_global_event(TrackEvent::Error.into(), TrackErrorNotifier);
-                v
+            Ok(handler) => {
+                let mut handler_lock = handler.lock().await;
+                handler_lock.add_global_event(TrackEvent::Error.into(), TrackErrorNotifier);
+
+                handler_lock.deafen(ctx.data().config.self_deaf).await?;
+
+                drop(handler_lock);
+                handler
             }
             Err(VoiceChannelJoinError::UserNotInVoiceChannel) => {
                 ctx.say("I'm not in a voice channel and it seems you are not in a voice channel i can access...").await?;
@@ -158,10 +161,10 @@ pub async fn join(
     if let Some(channel) = channel {
         match songbird_mgr.join(channel.guild_id, channel.id).await {
             Ok(handler) => {
-                handler
-                    .lock()
-                    .await
-                    .add_global_event(TrackEvent::Error.into(), TrackErrorNotifier);
+                let mut handler_lock = handler.lock().await;
+                handler_lock.add_global_event(TrackEvent::Error.into(), TrackErrorNotifier);
+
+                handler_lock.deafen(ctx.data().config.self_deaf).await?;
             }
             Err(e) => {
                 ctx.say("There was an error joining the voice channel...")
@@ -175,7 +178,13 @@ pub async fn join(
     }
 
     match try_join_user_voice_channel(&ctx, &songbird_mgr).await {
-        Ok(_) => {}
+        Ok(handler) => {
+            handler
+                .lock()
+                .await
+                .deafen(ctx.data().config.self_deaf)
+                .await?;
+        }
         Err(VoiceChannelJoinError::UserNotInVoiceChannel) => {
             ctx.say("You don't seem to be in any voice channel i can access!")
                 .await?;
