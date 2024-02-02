@@ -26,6 +26,6 @@ WORKDIR /app
 
 COPY --from=build /app/target/release/discomfort-fm .
 
-RUN apt-get update && apt-get install -y openssl libopus-dev yt-dlp && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install --no-install-recommends -y openssl libopus0 libopusfile0 yt-dlp && rm -rf /var/lib/apt/lists/*
 
 CMD ["./discomfort-fm"]
