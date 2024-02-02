@@ -11,6 +11,9 @@ Copy `.env.example` to `.env` and adjust the values:
 - `DATABASE_URL`: SQLite URI to where the database should be saved, if not set it will land in the local app data directory of your OS
     - In linux the default directory should be `$HOME/.local/share/discomfort-fm/data.db`
     - It is important to add `?mode=rwc` at the end of this string so that the database will be created, if it doesn't exist yet
+- `PULISH_GLOBAL`: Set to `true` to (re-)register global application commands
+    - This should be set `true` on initial run or after an update
+    - (Maybe this will be done automatically in the future)
 
 Build via `cargo build --release` then run the application at `target/release/discomfort-fm`.
 
