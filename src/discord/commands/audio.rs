@@ -1,8 +1,6 @@
 use poise::serenity_prelude::GuildChannel;
 use songbird::tracks::Track;
-use songbird::{Call, Songbird, TrackEvent};
-use std::sync::Arc;
-use tokio::sync::Mutex;
+use songbird::TrackEvent;
 use url::Url;
 
 use crate::database::actions::{volume_get_or_insert_default, volume_insert_or_update};
@@ -54,7 +52,7 @@ pub async fn play(
             Err(VoiceChannelJoinError::Other(e)) => {
                 ctx.say("There was an error joining your voice channel...")
                     .await?;
-                return Err(e.into());
+                return Err(e);
             }
         },
     };
@@ -74,7 +72,7 @@ pub async fn play(
                     return Ok(());
                 }
                 Err(VoiceChannelJoinError::Other(e)) => {
-                    return Err(e.into());
+                    return Err(e);
                 }
             };
 
@@ -186,7 +184,7 @@ pub async fn join(
         Err(VoiceChannelJoinError::Other(e)) => {
             ctx.say("There was an error joining the voice channel you are in...")
                 .await?;
-            return Err(e.into());
+            return Err(e);
         }
     }
 

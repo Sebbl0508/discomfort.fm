@@ -19,7 +19,7 @@ pub async fn try_get_user_voice_channel(
     ctx: &Context<'_>,
     user_id: &UserId,
 ) -> Result<ChannelId, VoiceChannelJoinError> {
-    let guild = ctx.guild().ok_or_else(|| "couldn't get guild")?;
+    let guild = ctx.guild().ok_or("couldn't get guild")?;
 
     guild
         .voice_states
@@ -32,7 +32,7 @@ pub async fn try_join_user_voice_channel(
     ctx: &Context<'_>,
     songbird_mgr: &Songbird,
 ) -> Result<Arc<Mutex<Call>>, VoiceChannelJoinError> {
-    let guild = ctx.guild().ok_or_else(|| "couldn't get guild")?.to_owned();
+    let guild = ctx.guild().ok_or("couldn't get guild")?.to_owned();
     let channel_id = guild
         .voice_states
         .get(&ctx.author().id)

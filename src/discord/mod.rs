@@ -58,11 +58,9 @@ pub async fn start(config: Config, db: DatabaseContext) -> Result<(), Error> {
                         GuildId::new(dev_guild),
                     )
                     .await?;
-                } else {
-                    if config.should_publish_global {
-                        tracing::info!("registering commands globally");
-                        poise::builtins::register_globally(ctx, &framework.options().commands).await?;
-                    }
+                } else if config.should_publish_global {
+                    tracing::info!("registering commands globally");
+                    poise::builtins::register_globally(ctx, &framework.options().commands).await?;
                 }
 
                 Ok(Data {

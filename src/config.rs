@@ -1,4 +1,4 @@
-use std::{env, path::PathBuf};
+use std::env;
 
 use directories::ProjectDirs;
 
@@ -19,7 +19,7 @@ impl Config {
     pub fn get() -> Result<Self, Box<dyn std::error::Error>> {
         let project_dirs =
             directories::ProjectDirs::from("com", "github.sebbl0508", "discomfort-fm")
-                .ok_or_else(|| "couldn't get base directories")?;
+                .ok_or("couldn't get base directories")?;
 
         tracing::debug!(
             "creating folder \"{}\"",

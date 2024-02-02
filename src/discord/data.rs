@@ -1,7 +1,6 @@
 use std::collections::HashMap;
 use std::sync::Arc;
 
-use parking_lot::Mutex;
 use poise::serenity_prelude::GuildId;
 use songbird::tracks::TrackHandle;
 use tokio::sync::RwLock;

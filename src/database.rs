@@ -1,9 +1,6 @@
-use std::str::FromStr;
-
 use chrono::{DateTime, Utc};
 use poise::serenity_prelude::GuildId;
 use sqlx::{pool::PoolConnection, sqlite::SqlitePoolOptions, Sqlite};
-use uuid::Uuid;
 
 use crate::discord::Error;
 
@@ -63,24 +60,22 @@ impl FromRawRow for GuildRow {
                 raw_row
                     .id
                     .parse()
-                    .expect(format!("couldn't parse guild-id from \"{}\"", &raw_row.id).as_str()),
+                    .unwrap_or_else(|_| panic!("couldn't parse guild-id from \"{}\"", &raw_row.id)),
             ),
             volume: raw_row.volume,
-            created_at: raw_row.created_at.parse().expect(
-                format!(
+            created_at: raw_row.created_at.parse().unwrap_or_else(|_| {
+                panic!(
                     "couldn't parse timestamp \"{}\" (guild_id {})",
                     &raw_row.created_at, &raw_row.id
                 )
-                .as_str(),
-            ),
+            }),
             updated_at: raw_row.updated_at.map(|v| {
-                v.parse::<DateTime<Utc>>().expect(
-                    format!(
+                v.parse::<DateTime<Utc>>().unwrap_or_else(|_| {
+                    panic!(
                         "couldn't parse timestamp \"{}\" (guild_id {})",
                         &v, &raw_row.id
                     )
-                    .as_str(),
-                )
+                })
             }),
         }
     }
