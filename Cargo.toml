@@ -20,7 +20,7 @@ poise = "0.6.1"
 reqwest = "0.11.24"
 songbird = "0.4.0"
 sqlx = { version = "0.7.3", features = ["runtime-tokio", "sqlite", "macros", "chrono"] }
-symphonia = { version = "0.5.3", features = ["mp3"] }
+symphonia = { version = "0.5.4", features = ["mp3"] }
 tokio = { version = "1.36.0", features = ["full"] }
 tracing = "0.1.40"
 tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
