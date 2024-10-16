@@ -25,7 +25,8 @@ FROM debian:bookworm-slim
 WORKDIR /app
 
 COPY --from=build /app/target/release/discomfort-fm .
+COPY ./docker-run.sh .
 
-RUN apt-get update && apt-get install --no-install-recommends -y openssl libopus0 libopusfile0 yt-dlp && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install --no-install-recommends -y openssl libopus0 libopusfile0 python3-full python3-pip && rm -rf /var/lib/apt/lists/*
 
-CMD ["./discomfort-fm"]
+CMD ["./docker-run.sh"]
